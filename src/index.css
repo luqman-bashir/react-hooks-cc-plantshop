@@ -135,3 +135,64 @@ input:focus {
     width: calc(20% - 2rem);
   }
 }
+
+button.primary {
+  background-color: rgb(187, 202, 187);
+  color: white;
+}
+
+button.secondary {
+  background-color: rgb(9, 110, 43);
+  color: white;
+}
+
+button {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Container for all plants */
+.plant-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap to the next line */
+  gap: 20px; /* Adds space between each card */
+  padding: 20px;
+}
+
+/* Styling for each plant card */
+.plant-card {
+  flex: 1 1 calc(25% - 20px); /* This ensures each card takes up 25% of the container width, minus gap */
+  border: 1px solid #ccc;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+  background-color: #fff;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect for cards */
+.plant-card:hover {
+  transform: scale(1.05);
+}
+
+/* Image styling */
+.plant-image {
+  width: 100%;
+  height: auto;
+  max-width: 150px; /* Limit the image size */
+  border-radius: 4px;
+  margin: 0 auto;
+}
+
+/* Styling for the delete button */
+.delete-button {
+  margin-left: 10px;
+  color: red;
+}
+
+
+
+

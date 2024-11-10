@@ -1,10 +1,19 @@
-import React from "react";
-import PlantCard from "./PlantCard";
+// PlantList.js  
+import React from 'react';  
+import PlantCard from './PlantCard';  
 
-function PlantList() {
-  return (
-    <ul className="cards">{/* render PlantCards components in here */}</ul>
-  );
-}
+const PlantList = ({ plants, toggleSoldOut, deletePlant }) => {  
+  return (  
+    <div className='plant-container'>  
+      {plants.length > 0 ? (  
+        plants.map((plant) => (  
+          <PlantCard key={plant.id} plant={plant} toggleSoldOut={toggleSoldOut} deletePlant={deletePlant} />  
+        ))  
+      ) : (  
+        <p>No plants found.</p>  
+      )}  
+    </div>  
+  );  
+};  
 
 export default PlantList;
