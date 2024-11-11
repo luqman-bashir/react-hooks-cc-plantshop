@@ -113,4 +113,4 @@ Push to the branch (git push origin feature-name).
 Create a new Pull Request.
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](https://github.com/luqman-bashir/react-hooks-cc-plantshop/blob/master/LICENSE.md)
