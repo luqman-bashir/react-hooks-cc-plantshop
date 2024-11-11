@@ -5,6 +5,8 @@ import PlantPage from './PlantPage';
 import NewPlantForm from './NewPlantForm';
 import Search from './Search';
 import Header from './Header';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const [plants, setPlants] = useState([]);
@@ -23,15 +25,22 @@ const App = () => {
 
   // Add a new plant
   const addPlant = async (newPlant) => {
-    const response = await fetch('http://localhost:6001/plants', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newPlant),
-    });
+    try {
+      const response = await fetch('http://localhost:6001/plants', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newPlant),
+      });
 
-    if (response.ok) {
-      const addedPlant = await response.json();
-      setPlants((prev) => [...prev, addedPlant]);
+      if (response.ok) {
+        const addedPlant = await response.json();
+        setPlants((prev) => [...prev, addedPlant]);
+        toast.success("Plant added successfully!");
+      } else {
+        throw new Error("Failed to add plant.");
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
@@ -49,16 +58,28 @@ const App = () => {
         plant.id === id ? { ...plant, inStock: !plant.inStock } : plant
       );
       setPlants(updatedPlants);
+      toast.success("Plant status updated!");
+    } else {
+      toast.error("Failed to update plant status.");
     }
   };
 
   // Delete a plant
   const deletePlant = async (id) => {
-    await fetch(`http://localhost:6001/plants/${id}`, {
-      method: 'DELETE',
-    });
+    try {
+      const response = await fetch(`http://localhost:6001/plants/${id}`, {
+        method: 'DELETE',
+      });
 
-    setPlants(plants.filter((plant) => plant.id !== id));
+      if (response.ok) {
+        setPlants(plants.filter((plant) => plant.id !== id));
+        toast.success("Plant deleted successfully!");
+      } else {
+        throw new Error("Failed to delete plant.");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   // Filter plants based on search term
@@ -72,6 +93,7 @@ const App = () => {
         <Header />
         <NewPlantForm addPlant={addPlant} />
         <Search setSearchTerm={setSearchTerm} />
+        <ToastContainer />
         <Routes>
           <Route
             path="/"

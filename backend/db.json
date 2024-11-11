@@ -40,13 +40,6 @@
       "name": "Fiddle Leaf Fig",
       "image": "/images/fiddle-leaf-fig.jpg",
       "price": 55,
-      "inStock": false
-    },
-    {
-      "id": "e90f",
-      "name": "dhjhfg",
-      "image": "/images/monstera.jpg",
-      "price": 34567,
       "inStock": true
     }
   ]

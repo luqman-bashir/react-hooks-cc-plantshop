@@ -28,7 +28,7 @@ app.get('/plants', (req, res) => {
 app.post('/plants', (req, res) => {
   const newPlant = req.body;
   const data = readDb();
-  newPlant.id = data.plants.length + 1; // Simple ID generation
+  newPlant.id = data.plants.length + 1; 
   data.plants.push(newPlant);
 
   // Save updated db.json
