@@ -5,19 +5,23 @@ import PlantPage from './PlantPage';
 import NewPlantForm from './NewPlantForm';
 import Search from './Search';
 import Header from './Header';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify'; // Ensure toast is used
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const [plants, setPlants] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); // Ensure this is used in Search
 
   // Fetch all plants when the component mounts
   useEffect(() => {
     const fetchPlants = async () => {
-      const response = await fetch('http://localhost:6001/plants');
-      const data = await response.json();
-      setPlants(data);
+      try {
+        const response = await fetch('http://localhost:6001/plants');
+        const data = await response.json();
+        setPlants(data);
+      } catch (error) {
+        toast.error("Failed to fetch plants!");
+      }
     };
 
     fetchPlants();
@@ -44,23 +48,52 @@ const App = () => {
     }
   };
 
+  // Update an existing plant
+  const updatePlant = async (id, updatedPlant) => {
+    try {
+      const response = await fetch(`http://localhost:6001/plants/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedPlant),
+      });
+
+      if (response.ok) {
+        const updatedData = await response.json();
+        setPlants((prev) =>
+          prev.map((plant) => (plant.id === id ? updatedData : plant))
+        );
+        toast.success("Plant updated successfully!");
+      } else {
+        throw new Error("Failed to update plant.");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   // Toggle the inStock status of a plant
   const toggleSoldOut = async (id) => {
     const plantToToggle = plants.find((plant) => plant.id === id);
-    const response = await fetch(`http://localhost:6001/plants/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ inStock: !plantToToggle.inStock }),
-    });
+    if (!plantToToggle) return;
 
-    if (response.ok) {
-      const updatedPlants = plants.map((plant) =>
-        plant.id === id ? { ...plant, inStock: !plant.inStock } : plant
-      );
-      setPlants(updatedPlants);
-      toast.success("Plant status updated!");
-    } else {
-      toast.error("Failed to update plant status.");
+    try {
+      const response = await fetch(`http://localhost:6001/plants/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inStock: !plantToToggle.inStock }),
+      });
+
+      if (response.ok) {
+        const updatedPlant = await response.json();
+        setPlants((prev) =>
+          prev.map((plant) => (plant.id === id ? updatedPlant : plant))
+        );
+        toast.success("Plant updated successfully!");
+      } else {
+        throw new Error("Failed to update plant.");
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
@@ -91,7 +124,7 @@ const App = () => {
     <Router>
       <div style={{ padding: '20px' }}>
         <Header />
-        <NewPlantForm addPlant={addPlant} />
+        <NewPlantForm addPlant={addPlant} updatePlant={updatePlant} plants={plants} />
         <Search setSearchTerm={setSearchTerm} />
         <ToastContainer />
         <Routes>
@@ -108,6 +141,15 @@ const App = () => {
           <Route
             path="/plants/:id"
             element={<PlantPage plants={plants} setPlants={setPlants} />}
+          />
+          <Route
+            path="/plants/edit/:id"
+            element={
+              <NewPlantForm
+                updatePlant={updatePlant}
+                plants={plants}
+              />
+            }
           />
         </Routes>
       </div>

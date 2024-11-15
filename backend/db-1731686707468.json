@@ -5,7 +5,7 @@
       "name": "ZZ Plant",
       "image": "/images/zz-plant.jpg",
       "price": 25.98,
-      "inStock": false
+      "inStock": true
     },
     {
       "id": "3",
@@ -26,7 +26,7 @@
       "name": "Jade",
       "image": "/images/jade.jpg",
       "price": 10.37,
-      "inStock": false
+      "inStock": true
     },
     {
       "id": "6",
@@ -43,11 +43,11 @@
       "inStock": true
     },
     {
-      "name": "yjhj",
-      "image": "/images/zz-plant.jpg",
-      "price": "45678",
-      "inStock": false,
-      "id": "jQeTF4R"
+      "id": "81b0",
+      "name": "gsadhakj",
+      "image": "/images/monstera.jpg",
+      "price": 5869,
+      "inStock": false
     }
   ]
 }
